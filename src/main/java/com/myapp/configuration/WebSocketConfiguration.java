@@ -14,7 +14,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer{
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// TODO Auto-generated method stub
 //		WebSocketMessageBrokerConfigurer.super.registerStompEndpoints(registry);
-		registry.addEndpoint("/chat").setAllowedOrigins("*").withSockJS();
+		registry.addEndpoint("/chat").setAllowedOrigins("http://localhost:63342").withSockJS();
 	}
 
 	@Override
