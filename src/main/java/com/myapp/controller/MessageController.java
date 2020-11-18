@@ -20,7 +20,7 @@ public class MessageController {
 		System.out.println("handling send message: " + message + " to: " + to);
 		boolean isExists = UserStorage.getInstance().getUsers().contains(to);
 		if(isExists) {
-			simpMessagingTemplate.convertAndSend("/topic/messages" + to, message);
+			simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
 		}
 	}
 }

@@ -11,12 +11,14 @@ function connectToChat(userName){
 		stompClient.subscribe("/topic/messages/" + userName, function(response){
 			let data = JSON.parse(response.body);
 			console.log(data);
+			render(data.message, data.fromLogin);
 		});
 	});
 }
 
 function sendMsg(from, text){
-	stompClient.send("/app/chat" + selectedUser, {}, JSON.stringify({
+    if(selectedUser === undefined) selectedUser = users[0];
+	stompClient.send("/app/chat/" + selectedUser, {}, JSON.stringify({
 		fromLogin: from,
 		message: text
 	}));
