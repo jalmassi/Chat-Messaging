@@ -31,6 +31,14 @@ function registration(){
 			alert("Login is already busy");
 		}
 	})
+	fetchAll();
+}
+
+function selectUser(userName){
+    console.log("selecting users: " + userName);
+    selectedUser = userName;
+    $('#selectedUserId').html(''); //empties text
+    $('#selectedUserId').append('Chat with ' + userName);
 }
 
 function fetchAll(){
@@ -39,7 +47,7 @@ function fetchAll(){
 		let usersTemplateHTML = "";
 		for(let i = 0; i<users.length; i++){
 		    usersTemplateHTML = usersTemplateHTML
-		        + '<li class="clearfix">\n' +
+		        + '<a href="#" onclick="selectUser(\'' + users[i]+'\')"><li class="clearfix">\n' +
                      '<img alt="avatar" height="55px"\n' +
                           'src="https://rtfm.co.ua/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"\n' +
                           'width="55px"/>\n' +
@@ -49,7 +57,7 @@ function fetchAll(){
                              '<i class="fa fa-circle online"></i>\n' +
                          '</div>\n' +
                      '</div>'
-                 '</li>';
+                 '</li></a>';
 		}
 		$('#usersList').html(usersTemplateHTML);
 	});
