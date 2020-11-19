@@ -1,6 +1,7 @@
 const url = 'http://localhost:8080';
 let stompClient;
 let selectedUser;
+let newMessage = new Map();
 
 function connectToChat(userName){
 	console.log("connecting to chat...");
@@ -11,13 +12,17 @@ function connectToChat(userName){
 		stompClient.subscribe("/topic/messages/" + userName, function(response){
 			let data = JSON.parse(response.body);
 			console.log(data);
-			render(data.message, data.fromLogin);
+			if(selectedUser===data.fromLogin){
+			    render(data.message, data.fromLogin);
+		    }else{
+		        newMessage.set(data.fromLogin, data.message); //store messages from new users in map
+		        $('#userNameAppender_'+data.fromLogin).append('<span >+1</span>')
+		    }
 		});
 	});
 }
 
 function sendMsg(from, text){
-    if(selectedUser === undefined) selectedUser = users[0];
 	stompClient.send("/app/chat/" + selectedUser, {}, JSON.stringify({
 		fromLogin: from,
 		message: text
@@ -33,7 +38,6 @@ function registration(){
 			alert("Login is already busy");
 		}
 	})
-	fetchAll();
 }
 
 function selectUser(userName){
@@ -54,7 +58,7 @@ function fetchAll(){
                           'src="https://rtfm.co.ua/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"\n' +
                           'width="55px"/>\n' +
                      '<div class="about">\n' +
-                         '<div class="name">' + users[i] + '</div>\n' +
+                         '<div id="usernameAppender_' + users[i] + '" class="name">' + users[i] + '</div>\n' +
                          '<div class="status">\n' +
                              '<i class="fa fa-circle online"></i>\n' +
                          '</div>\n' +
